@@ -1,0 +1,93 @@
+swagger: '2.0'
+info:
+  title: 'Statistics Stream API'
+  description: 'Web page visit events stream API'
+  contact:
+    name: eggimannm
+  version: 2.13.0
+host: 'server:8080'
+basePath: Kafka
+paths:
+  app.techsys.onboarding.statistics.PageVisit-event:
+    get:
+      summary: 'Page visit events'
+      description: 'Events about which web pages were accessed by the users.'
+      tags:
+        - app.techsys.onboarding.statistics
+      responses:
+        '200':
+          description: 'The page visit events'
+          schema: {type: array, $ref: '#/definitions/PageVisitEvent'}
+definitions:
+  HttpMethod:
+    type: string
+    enum:
+      - HEAD
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - CONNECT
+      - OPTIONS
+      - TRACE
+      - PATCH
+    $ref: HttpMethod
+  DateTime:
+    type: string
+    description: "<a href=\"https://swagger.io/docs/specification/data-models/data-types/#string\">String @format date-time</a>,\nas defined by <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339, section 5.6</a>,\nfor example: <code>2014-05-22T10:42:42.542+00:00</code>."
+    format: date-time
+    $ref: DateTime
+  Int:
+    type: integer
+    description: '<a href="https://swagger.io/docs/specification/data-models/data-types/#numbers">Number @asType integer</a>'
+    $ref: Int
+  PageVisitEvent:
+    type: object
+    properties:
+      timestamp:
+        description: 'The timestamp when the visit happened.'
+        type: string
+        format: date-time
+      sourceIpAddress:
+        type: string
+        description: 'The IP address of the source system.'
+        maxLength: 15
+      userName:
+        type: string
+        description: 'The user name.'
+        maxLength: 50
+      destinationUri:
+        type: string
+        description: 'The URI of the resource that the user accessed.'
+        maxLength: 255
+      webBrowser:
+        type: string
+        description: 'The browser that was used.'
+        maxLength: 255
+      method:
+        description: 'The HTTP method that was used'
+        type: string
+        enum:
+          - HEAD
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - CONNECT
+          - OPTIONS
+          - TRACE
+          - PATCH
+        id: HttpMethod
+      statusCode:
+        description: 'The HTTP status code that was returned'
+        type: integer
+    required:
+      - timestamp
+      - sourceIpAddress
+      - userName
+      - destinationUri
+      - webBrowser
+      - method
+      - statusCode
+    additionalProperties: false
+    description: 'Represents a page visit from a user.'
