@@ -4,7 +4,7 @@ info:
   description: 'Web page visit events stream API'
   contact:
     name: eggimannm
-  version: 2.13.0-feature-github-publish.8
+  version: 2.13.0-feature-github-publish.12
 host: 'server:8080'
 basePath: Kafka
 paths:
