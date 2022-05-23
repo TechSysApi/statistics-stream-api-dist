@@ -4,7 +4,7 @@ info:
   description: 'Web page visit events stream API'
   contact:
     name: eggimannm
-  version: 2.14.0
+  version: 2.15.0
 host: 'server:8080'
 basePath: Kafka
 paths:
