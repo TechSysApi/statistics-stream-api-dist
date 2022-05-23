@@ -4,7 +4,7 @@ info:
   description: 'Web page visit events stream API'
   contact:
     name: eggimannm
-  version: 2.15.1
+  version: 2.16.0
 host: 'server:8080'
 basePath: Kafka
 paths:
@@ -19,6 +19,20 @@ paths:
           description: 'The page visit events'
           schema: {type: array, $ref: '#/definitions/PageVisitEvent'}
 definitions:
+  Header:
+    type: object
+    properties:
+      key:
+        type: string
+        description: 'The key of the header'
+      value:
+        type: string
+        description: 'The value of the header'
+    required:
+      - key
+      - value
+    additionalProperties: false
+    $ref: Header
   HttpMethod:
     type: string
     enum:
@@ -81,6 +95,15 @@ definitions:
       statusCode:
         description: 'The HTTP status code that was returned'
         type: integer
+      headers:
+        type: array
+        items:
+          type: object
+          properties: {key: {type: string, description: 'The key of the header'}, value: {type: string, description: 'The value of the header'}}
+          required: [key, value]
+          additionalProperties: false
+          $ref: Header
+        description: 'The HTTP headers'
     required:
       - timestamp
       - sourceIpAddress
@@ -89,5 +112,6 @@ definitions:
       - webBrowser
       - method
       - statusCode
+      - headers
     additionalProperties: false
     description: 'Represents a page visit from a user.'
