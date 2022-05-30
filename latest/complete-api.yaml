@@ -4,7 +4,7 @@ info:
   description: 'Web page visit events stream API'
   contact:
     name: eggimannm
-  version: 2.17.3-feature-vault.15
+  version: 2.17.3-feature-vault.16
 host: 'server:8080'
 basePath: Kafka
 paths:
