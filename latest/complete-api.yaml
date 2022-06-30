@@ -4,7 +4,7 @@ info:
   description: 'Web page visit events stream API'
   contact:
     name: eggimannm
-  version: 2.17.3
+  version: 2.17.4-bugfix-schema.2
 host: 'server:8080'
 basePath: Kafka
 paths:
@@ -17,7 +17,7 @@ paths:
       responses:
         '200':
           description: 'The page visit events'
-          schema: {type: array, $ref: '#/definitions/PageVisitEvent'}
+          schema: {type: array, $ref: 'PageVisitEvent'}
 definitions:
   Header:
     type: object
@@ -32,7 +32,6 @@ definitions:
       - key
       - value
     additionalProperties: false
-    $ref: Header
   HttpMethod:
     type: string
     enum:
@@ -45,23 +44,19 @@ definitions:
       - OPTIONS
       - TRACE
       - PATCH
-    $ref: HttpMethod
   DateTime:
     type: string
     description: "<a href=\"https://swagger.io/docs/specification/data-models/data-types/#string\">String @format date-time</a>,\nas defined by <a href=\"https://tools.ietf.org/html/rfc3339#section-5.6\">RFC 3339, section 5.6</a>,\nfor example: <code>2014-05-22T10:42:42.542+00:00</code>."
     format: date-time
-    $ref: DateTime
   Int:
     type: integer
     description: '<a href="https://swagger.io/docs/specification/data-models/data-types/#numbers">Number @asType integer</a>'
-    $ref: Int
   PageVisitEvent:
     type: object
     properties:
       timestamp:
+        $ref: 'DateTime'
         description: 'The timestamp when the visit happened.'
-        type: string
-        format: date-time
       sourceIpAddress:
         type: string
         description: 'The IP address of the source system.'
@@ -79,30 +74,15 @@ definitions:
         description: 'The browser that was used.'
         maxLength: 255
       method:
+        $ref: 'HttpMethod'
         description: 'The HTTP method that was used'
-        type: string
-        enum:
-          - HEAD
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - CONNECT
-          - OPTIONS
-          - TRACE
-          - PATCH
-        id: HttpMethod
       statusCode:
+        $ref: 'Int'
         description: 'The HTTP status code that was returned'
-        type: integer
       headers:
         type: array
         items:
-          type: object
-          properties: {key: {type: string, description: 'The key of the header'}, value: {type: string, description: 'The value of the header'}}
-          required: [key, value]
-          additionalProperties: false
-          $ref: Header
+          $ref: 'Header'
         description: 'The HTTP headers'
     required:
       - timestamp
